@@ -430,6 +430,12 @@ section{padding-block:clamp(72px,9vw,124px)}
 .raiox p{margin-top:6px;font-size:13px;color:var(--cinza);line-height:1.4}
 .raiox .eco{grid-column:1/-1;background:rgba(18,161,80,.08);border-color:rgba(18,161,80,.3)}
 .raiox .eco b{color:var(--ok)}
+.aceita,.mao{padding:20px 22px;border-radius:18px;background:#fff;border:1px solid var(--fio)}
+.aceita h3,.mao h3{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--cinza);margin-bottom:12px}
+.aceita ul,.mao ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;line-height:1.45;color:var(--tinta)}
+.aceita li,.mao li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px}
+.aceita li svg,.mao li svg{width:16px;height:16px;margin-top:3px;stroke:var(--ok);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.mao li svg{stroke:var(--azul)}
 .aceite{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;align-items:start;padding:16px;border-radius:16px;background:#fff;border:1px solid var(--fio);font-size:14.5px;line-height:1.55;color:var(--tinta);cursor:pointer}
 .aceite input{width:19px;height:19px;margin:2px 0 0;accent-color:var(--navy)}
 .erro{color:var(--erro);font-size:14.5px;font-weight:500}
@@ -843,6 +849,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 <p class="n" data-n></p>
 <h2>Sua ficha está <em class="s">pronta</em>.</h2>
 <p class="ajuda">Confira a ficha ao lado. Se algo estiver errado, volte e ajuste: nada se perde.</p>
+<div class="aceita" id="aceita"></div>
 <label class="aceite"><input type="checkbox" name="aceite"><span>Li e concordo: vi os valores, a fidelidade de 6 meses na abertura ou na troca, e autorizo a Apport One Contabilidade a usar estes dados para preparar a minha proposta e falar comigo pelo WhatsApp e pelo e-mail.</span></label>
 <p class="fino">Ao enviar, abrimos o WhatsApp da Apport com a ficha pronta. É só mandar.</p>
 </section>
@@ -853,6 +860,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 <p class="ajuda" style="margin:0">Abrimos a conversa com a Apport com a sua ficha. Envie a mensagem e respondemos com o prazo e o valor final.</p>
 <p>Protocolo <span class="prot" id="protocolo">AP</span></p>
 <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="bt zap" id="wa-de-novo" href="#" target="_blank" rel="noopener">Abrir o WhatsApp de novo</a><button class="bt leve" type="button" id="imprime">Salvar a ficha em PDF</button></div>
+<div class="mao" id="mao"></div>
 <p class="gt" style="font:600 13px/1 var(--sans);color:var(--cinza);margin-top:8px">O que vem depois</p>
 <ol class="linha" id="linha"></ol>
 <button class="lk" type="button" id="outro">Fazer outro pedido</button>
@@ -1127,6 +1135,7 @@ section{padding-block:clamp(72px,9vw,124px)}
     d.getElementById('l-cpf').hidden = E.porta === 'trocar';
     d.getElementById('socios-dica').hidden = !(E.porta === 'abrir' && E.socios === '2');
     if (nome === 'formato') desenhaFormato();
+    if (nome === 'revisao') desenhaAceita();
     if (nome === 'cnpj') desenhaEmpresa();
     if (nome === 'numeros') desenhaRaiox();
     if (nome === 'nome') { var mei = (formato() || {}).cod === 'MEI'; d.getElementById('nomes-ltda').hidden = mei; d.getElementById('nome-ajuda').textContent = mei ? 'No MEI, a razão social é o seu nome com o CPF. Escolha só o nome fantasia, que é o que os clientes vão ver.' : 'A Junta Comercial só aceita nome que ainda não existe. Mande três opções, em ordem de preferência.'; }
@@ -1361,9 +1370,27 @@ section{padding-block:clamp(72px,9vw,124px)}
       : (formato() || {}).cod === 'MEI'
         ? [['Ficha montada', 'agora, pelo site'], ['Análise da Apport', 'confirmamos o MEI e a atividade'], ['Formalização do MEI', 'Portal do Empreendedor'], ['CNPJ', 'sai na formalização'], ['Inscrição e alvará', 'conforme a cidade'], ['Nota fiscal no celular', 'sistema com a marca da Apport']]
         : [['Ficha montada', 'agora, pelo site'], ['Proposta da Apport', 'prazo e valor final no WhatsApp'], ['Consulta de viabilidade', 'prefeitura'], ['Registro da empresa', 'Junta Comercial'], ['CNPJ', 'Receita Federal'], ['Inscrições e alvará', 'conforme a atividade'], ['Nota fiscal no celular', 'sistema com a marca da Apport, 60 dias grátis']];
+    desenhaMao();
     d.getElementById('linha').innerHTML = et.map(function (e, i) { return '<li class="' + (i === 0 ? 'ok' : i === 1 ? 'vez' : '') + '"><b>' + e[0] + '</b><small>' + e[1] + '</small></li>'; }).join('');
     vai('feito');
     try { localStorage.removeItem(CHAVE); } catch (e) {}
+  }
+  function itens(lista, icone) { return '<ul>' + lista.map(function (x) { return '<li><svg aria-hidden="true"><use href="#' + icone + '"/></svg><span>' + x + '</span></li>'; }).join('') + '</ul>'; }
+  /* o que a pessoa aceita, em linguagem simples: só o que a Apport publica */
+  function desenhaAceita() {
+    var mei = E.porta === 'abrir' && (formato() || {}).cod === 'MEI', L = ['Nada é cobrado agora. A proposta chega no WhatsApp e você decide.'];
+    if (mei) L.push('Registro do MEI gratuito, no Portal do Empreendedor. O acompanhamento da Apport vem na proposta.');
+    else { L.push((E.porta === 'trocar' ? 'Troca de contador' : 'Abertura da empresa') + ': R$ 99,90, valor único.'); L.push('Contabilidade online a partir de R$ 399,90 por mês. O valor exato vem na proposta.'); L.push('Fidelidade de 6 meses na ' + (E.porta === 'trocar' ? 'troca' : 'abertura') + '.'); }
+    if (E.porta === 'abrir' && !mei) L.push('Taxas públicas da Junta Comercial e da prefeitura informadas antes de qualquer pagamento.');
+    L.push('Seus dados servem só para a proposta e para falarmos com você (LGPD).');
+    d.getElementById('aceita').innerHTML = '<h3>O que você está aceitando</h3>' + itens(L, 'i-ok');
+  }
+  /* o que deixar à mão para a próxima etapa */
+  function desenhaMao() {
+    var L = E.porta === 'trocar'
+      ? ['Certificado digital da empresa, se tiver', 'Acesso à prefeitura para emitir nota, se tiver', 'Contato do contador atual', 'Extratos e notas do mês']
+      : ['RG ou CNH de cada sócio', 'Comprovante de residência', 'IPTU ou inscrição do imóvel onde a empresa vai funcionar', 'Conta gov.br nível prata ou ouro, para assinar digitalmente', 'Certidão de casamento, se for casado'];
+    d.getElementById('mao').innerHTML = '<h3>Deixe à mão</h3>' + itens(L, 'i-nota');
   }
   d.getElementById('outro').addEventListener('click', function () { E = JSON.parse(JSON.stringify(VAZIO)); antes = {}; form.reset(); preenche(); vai('porta'); });
 
