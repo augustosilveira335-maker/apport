@@ -1378,6 +1378,15 @@ section{padding-block:clamp(72px,9vw,124px)}
     x.resumo = linhasMsg().filter(function (l) { return l[0] !== 'Meus dados'; });
     return x;
   }
+  /* o endereço da marca (apport.sistemabrasil.com) só vale depois do DNS; até lá, o mesmo link em sistemabrasil.com */
+  function linkQueAbre(link) {
+    var m = /^https:\/\/([a-z0-9.-]+)(\/abertura\/c\/[A-Za-z0-9_-]+)$/.exec(link || '');
+    if (!m || m[1] === 'sistemabrasil.com') return Promise.resolve(link);
+    var reserva = 'https://sistemabrasil.com' + m[2], ctl = window.AbortController ? new AbortController() : null;
+    var tm = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
+    return fetch('https://' + m[1] + '/favicon.ico', { mode: 'no-cors', cache: 'no-store', signal: ctl ? ctl.signal : undefined })
+      .then(function () { clearTimeout(tm); return link; }, function () { clearTimeout(tm); return reserva; });
+  }
   function envia() {
     var botao = d.getElementById('fx-segue'); botao.disabled = true; botao.textContent = 'Enviando...';
     /* a janela do WhatsApp abre já no clique (senão o navegador bloqueia) e recebe o endereço depois */
@@ -1392,6 +1401,7 @@ section{padding-block:clamp(72px,9vw,124px)}
       ? fetch(API_ABERTURA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), signal: ctl ? ctl.signal : undefined })
           .then(function (r) { if (r.status !== 201) throw new Error('http ' + r.status); return r.json(); })
           .then(function (j) { if (!j || !j.protocolo) throw new Error('sem protocolo'); return j; })
+          .then(function (j) { return linkQueAbre(j.link).then(function (l) { j.link = l; return j; }); })
       : Promise.reject(new Error('sem servidor'));
     envio.catch(function () { return null; }).then(function (srv) { clearTimeout(tm); conclui(srv, janela); botao.disabled = false; });
   }
