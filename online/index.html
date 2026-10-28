@@ -154,9 +154,13 @@ kbd{font:600 11px/1 var(--sans);padding:4px 6px;border-radius:6px;border:1px sol
 .f-num .eco b{color:var(--ok)}
 .f-pe{margin-top:12px;font-size:11.5px;line-height:1.45;color:var(--cinza)}
 /* demonstração no herói */
-.demo{position:relative}
-.demo::before{content:"";position:absolute;inset:-60px -40px;background:radial-gradient(circle at 60% 40%,rgba(47,111,224,.18),transparent 62%);pointer-events:none}
-.demo .ficha{transform:rotate(1.2deg)}
+.demo{position:relative;height:640px;align-self:end;margin-bottom:calc(-1 * clamp(56px,7vw,96px))}
+.palco{position:absolute;inset:0;pointer-events:none}
+.palco .disco{position:absolute;right:-13%;bottom:-9%;width:98%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 28%,#0E3E9E 0,#001E60 64%)}
+.palco .aro{position:absolute;right:-24%;bottom:-21%;width:120%;aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(48,128,226,.26)}
+.palco .pessoa{position:absolute;right:-7%;bottom:0;height:97%;width:auto;max-width:none;filter:drop-shadow(0 30px 40px rgba(0,30,96,.16))}
+.demo .ficha{position:absolute;left:-2%;top:6px;width:410px;z-index:2;transform:rotate(-1.6deg) scale(.68);transform-origin:top left}
+.demo .f-l:nth-child(3),.demo .f-l:nth-child(4),.demo .f-l:nth-child(6){display:none}
 .demo .f-l{opacity:0;animation:aparece .6s var(--mola) forwards}
 .demo .f-l:nth-child(1){animation-delay:.6s}.demo .f-l:nth-child(2){animation-delay:1.2s}.demo .f-l:nth-child(3){animation-delay:1.8s}.demo .f-l:nth-child(4){animation-delay:2.4s}.demo .f-l:nth-child(5){animation-delay:3s}.demo .f-l:nth-child(6){animation-delay:3.6s}
 .demo .f-num{opacity:0;animation:aparece .7s var(--mola) 4.2s forwards}
@@ -164,12 +168,12 @@ kbd{font:600 11px/1 var(--sans);padding:4px 6px;border-radius:6px;border:1px sol
 @keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .demo .digita{border-right:2px solid var(--azul);padding-right:2px;animation:pisca 1s steps(1) infinite}
 @keyframes pisca{50%{border-color:transparent}}
-.demo figcaption{margin-top:14px;text-align:right;font-size:12.5px;color:var(--cinza)}
+.demo figcaption{position:absolute;right:0;top:-26px;font-size:12.5px;color:var(--cinza)}
 .chip-voa{position:absolute;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:16px;background:var(--navy);color:#fff;box-shadow:var(--sombra2);font-size:13px;line-height:1.3;opacity:0;animation:aparece .8s var(--mola) forwards;z-index:2}
 .chip-voa b{display:block;font:600 14px/1.2 var(--sans)}
 .chip-voa svg{width:18px;height:18px;stroke:#7CF0AE;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.chip-voa.c1{left:-54px;top:-44px;animation-delay:2.1s}
-.chip-voa.c2{left:-46px;bottom:6px;animation-delay:4.4s;background:#fff;color:var(--tinta2)}
+.chip-voa.c1{left:2%;bottom:118px;animation-delay:2.1s}
+.chip-voa.c2{right:-5%;bottom:44px;animation-delay:4.4s;background:#fff;color:var(--tinta2)}
 .chip-voa.c2 b{color:var(--navy)}
 .chip-voa.c2 svg{stroke:var(--azul)}
 
@@ -298,7 +302,12 @@ section{padding-block:clamp(72px,9vw,124px)}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq details p{padding:0 0 20px;color:var(--tinta2);font-size:15.5px;max-width:42em}
 .fim{padding-block:clamp(64px,8vw,110px)}
-.fim .caixa{position:relative;overflow:hidden;border-radius:28px;background:var(--navy);color:#fff;padding:clamp(30px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;align-items:center}
+.fim .caixa{position:relative;overflow:hidden;border-radius:28px;background:var(--navy);color:#fff;padding:clamp(30px,5vw,64px) clamp(30px,5vw,64px) 0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:30px;align-items:stretch}
+.fim .txt{position:relative;z-index:1;align-self:center;padding-bottom:clamp(30px,5vw,64px)}
+.fim .txt .botoes{margin-top:28px}
+.fim .foto{position:relative;min-height:450px}
+.fim .foto .disco{position:absolute;left:50%;bottom:-22%;width:min(460px,100%);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 38% 30%,#6AA8F2 0,#3080E2 58%,#2263BF 100%)}
+.fim .foto img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:min(500px,110%);width:auto;max-width:none}
 .fim .caixa::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(142,192,255,.28),transparent 70%)}
 .fim h2{font:650 clamp(30px,3.4vw,48px)/1.05 var(--sans);letter-spacing:-.03em}
 .fim h2 em.s{color:var(--ceu)}
@@ -471,8 +480,10 @@ section{padding-block:clamp(72px,9vw,124px)}
 }
 @media(max-width:980px){
   .heroi .c{grid-template-columns:1fr}
-  .demo{max-width:520px;margin:10px auto 0;width:100%}
-  .chip-voa.c1{left:-6px}.chip-voa.c2{right:-6px}
+  .demo{max-width:520px;margin:10px auto calc(-1 * clamp(56px,7vw,96px));width:100%;height:540px}
+  .demo .ficha{width:410px;transform:rotate(-1.6deg) scale(.62)}
+  .fim .foto{min-height:380px}
+  .chip-voa.c1{left:0}.chip-voa.c2{right:-6px}
   .planos{grid-template-columns:1fr}
   .tres,.comp{grid-template-columns:1fr 1fr}
   .como,.calc,.faq,.fim .caixa,.cab{grid-template-columns:1fr}
@@ -501,7 +512,14 @@ section{padding-block:clamp(72px,9vw,124px)}
   .abas{width:100%}.abas button{flex:1}
   .sugestoes button{grid-template-columns:1fr 18px}.sugestoes .cod{grid-column:1}.sugestoes svg{grid-row:1/3;grid-column:2}
   .sugestoes .emp{grid-template-columns:36px 1fr 18px}
-  .demo .ficha{transform:none;padding:18px}
+  .demo{height:auto;margin-top:18px;margin-bottom:0}
+  .palco{position:relative;height:400px;inset:auto}
+  .palco .disco{left:50%;right:auto;width:330px;transform:translateX(-50%)}
+  .palco .aro{display:none}
+  .palco .pessoa{left:50%;right:auto;transform:translateX(-50%);height:100%}
+  .demo .ficha{position:relative;left:auto;top:auto;width:auto;margin-top:-120px;transform:none;padding:18px}
+  .demo figcaption{position:static;display:block;margin-top:10px;text-align:right}
+  .fim .foto{min-height:340px}
   .f-l{grid-template-columns:1fr;gap:0}
   .f-razao{padding-right:0;margin-top:34px}
   .carimbo{top:58px;right:14px}
@@ -573,6 +591,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 <div class="provas"><span><svg aria-hidden="true"><use href="#i-ok"/></svg>Preço na tela, sem asterisco</span><span><svg aria-hidden="true"><use href="#i-ok"/></svg>Fidelidade de 6 meses, não 12</span><span><svg aria-hidden="true"><use href="#i-ok"/></svg>Escritório em Campo Bom</span></div>
 </div>
 <figure class="demo" aria-label="Exemplo ilustrativo da ficha da empresa se montando">
+<div class="palco" aria-hidden="true"><span class="aro"></span><span class="disco"></span><img class="pessoa" src="../online/img/empreendedora.webp" alt="" width="890" height="1300" fetchpriority="high" decoding="async"></div>
 <div class="chip-voa c1"><svg aria-hidden="true"><use href="#i-ok"/></svg><span><b>Formato indicado</b>sem você precisar saber</span></div>
 <div class="ficha">
 <div class="f-top"><svg class="wm" aria-hidden="true"><use href="#logo-online"/></svg><span class="f-tit">Ficha da empresa</span><span class="anel"><svg viewBox="0 0 46 46"><circle class="t" cx="23" cy="23" r="19"/><circle class="p" cx="23" cy="23" r="19" stroke-dasharray="119.4" stroke-dashoffset="18"/></svg><b>85%</b></span></div>
@@ -716,11 +735,13 @@ section{padding-block:clamp(72px,9vw,124px)}
 </div></section>
 
 <section class="fim"><div class="c"><div class="caixa">
-<div><h2>Sua empresa em dia, <em class="s">a partir de hoje</em>.</h2><p>Escolha por onde começar. Leva poucos minutos e você vê o preço antes de qualquer compromisso.</p></div>
+<div class="txt"><h2>Sua empresa em dia, <em class="s">a partir de hoje</em>.</h2><p>Escolha por onde começar. Leva poucos minutos e você vê o preço antes de qualquer compromisso.</p>
 <div class="botoes">
 <button class="porta" type="button" data-inicia="abrir"><span class="ic"><svg aria-hidden="true"><use href="#i-abrir"/></svg></span><b>Abrir minha empresa</b><small><strong>R$ 99,90</strong> · 5 minutos para pedir</small><svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></button>
 <button class="porta" type="button" data-inicia="trocar"><span class="ic"><svg aria-hidden="true"><use href="#i-trocar"/></svg></span><b>Trocar de contador</b><small><strong>R$ 99,90</strong> · com raio-x do seu imposto</small><svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></button>
 </div>
+</div>
+<div class="foto" aria-hidden="true"><span class="disco"></span><img src="../online/img/empresario.webp" alt="" width="768" height="1200" loading="lazy" decoding="async"></div>
 </div></div></section>
 </main>
 
