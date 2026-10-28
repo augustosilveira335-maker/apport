@@ -1234,7 +1234,10 @@ section{padding-block:clamp(72px,9vw,124px)}
   function cpfFmt(v) { v = v.replace(/\D/g, '').slice(0, 11); return v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); }
   function zapFmt(v) { v = v.replace(/\D/g, '').slice(0, 11); if (v.length <= 2) return v.length ? '(' + v : ''; if (v.length <= 6) return '(' + v.slice(0, 2) + ') ' + v.slice(2); if (v.length <= 10) return '(' + v.slice(0, 2) + ') ' + v.slice(2, 6) + '-' + v.slice(6); return '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7); }
   function cpfOk(c) { c = c.replace(/\D/g, ''); if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false; for (var t = 9; t < 11; t++) { var s = 0; for (var i = 0; i < t; i++) s += +c[i] * (t + 1 - i); if ((s * 10) % 11 % 10 !== +c[t]) return false; } return true; }
-  function emailOk(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e); }
+  function emailOk(e) { return /^[^@\s<>?&#%/"]+@[^@\s<>?&#%/"]+\.[^@\s<>?&#%/"]{2,}$/.test(e); }
+  /* nome: só letras, espaço e ' . - (mesma regra do Sistema Brasil); o apóstrofo do celular vira o simples */
+  function nomeLimpo(n) { return String(n || '').normalize('NFC').replace(/[‘’´`]/g, "'").replace(/\s+/g, ' ').trim(); }
+  function nomeOk(n) { var x = nomeLimpo(n); return x.length >= 3 && x.length <= 120 && /^[\p{L} '.-]+$/u.test(x) && /\p{L}/u.test(x); }
 
   /* ===== CNPJ na Receita (BrasilAPI) ===== */
   function cnpjFmt(v) { v = v.replace(/\D/g, '').slice(0, 14); return v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2'); }
@@ -1326,7 +1329,7 @@ section{padding-block:clamp(72px,9vw,124px)}
     if (p === 'cnpj' && !cnpjOk(E.cnpj)) return marca('cnpj', 'Confira o CNPJ.', mudo);
     if (p === 'numeros' && !(E.tfat > 0)) return 'Informe o faturamento.';
     if (p === 'equipe' && E.tfunc === '') return 'Diga quantos funcionários.';
-    if (p === 'voce') { if (E.pessoa.trim().split(/\s+/).length < 2) return marca('pessoa', 'Escreva o nome completo.', mudo); if (E.porta === 'abrir' && !cpfOk(E.cpf)) return marca('cpf', 'Confira o CPF.', mudo); if (E.zap.replace(/\D/g, '').length < 10) return marca('zap', 'Confira o WhatsApp com DDD.', mudo); if (!emailOk(E.email.trim())) return marca('email', 'Confira o e-mail.', mudo); }
+    if (p === 'voce') { if (E.pessoa.trim().split(/\s+/).length < 2) return marca('pessoa', 'Escreva o nome completo.', mudo); if (!nomeOk(E.pessoa)) return marca('pessoa', 'Use só letras no nome.', mudo); if (E.porta === 'abrir' && !cpfOk(E.cpf)) return marca('cpf', 'Confira o CPF.', mudo); if (E.zap.replace(/\D/g, '').length < 10) return marca('zap', 'Confira o WhatsApp com DDD.', mudo); if (!emailOk(E.email.trim())) return marca('email', 'Confira o e-mail.', mudo); }
     if (p === 'revisao' && !form.elements.aceite.checked) { if (!mudo) form.elements.aceite.focus(); return 'Marque a caixa de concordância para enviar.'; }
     return '';
   }
@@ -1384,7 +1387,7 @@ section{padding-block:clamp(72px,9vw,124px)}
       if (janela) { janela.document.title = 'Abrindo o WhatsApp'; janela.document.body.innerHTML = '<p style="font:16px system-ui,sans-serif;padding:24px;color:#001E60">Abrindo o WhatsApp da Apport...</p>'; }
     } catch (e) { janela = null; }
     var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 7000);
-    var corpo = { escritorio: 'apport', tipo: E.porta, dados: dadosParaServidor(), contato: { nome: E.pessoa.trim(), email: E.email.trim(), whatsapp: '55' + E.zap.replace(/\D/g, ''), cpf: E.porta === 'abrir' ? E.cpf.replace(/\D/g, '') : undefined }, isca: (d.getElementById('isca') || {}).value || '', aceite: { versao: 'apport-online-2026-10-28', em: Date.now() }, t0: t0 || Date.now(), origem: location.href.split('#')[0] };
+    var corpo = { escritorio: 'apport', tipo: E.porta, dados: dadosParaServidor(), contato: { nome: nomeLimpo(E.pessoa), email: E.email.trim(), whatsapp: '55' + E.zap.replace(/\D/g, ''), cpf: E.porta === 'abrir' ? E.cpf.replace(/\D/g, '') : undefined }, isca: (d.getElementById('isca') || {}).value || '', aceite: { versao: 'apport-online-2026-10-28', em: Date.now() }, t0: t0 || Date.now(), origem: location.href.split('#')[0] };
     var envio = /^https?:\/\//.test(API_ABERTURA)
       ? fetch(API_ABERTURA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), signal: ctl ? ctl.signal : undefined })
           .then(function (r) { if (r.status !== 201) throw new Error('http ' + r.status); return r.json(); })
