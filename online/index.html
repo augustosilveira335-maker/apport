@@ -1370,7 +1370,9 @@ section{padding-block:clamp(72px,9vw,124px)}
     delete x.passo; delete x.cpf;
     x.formato = f.cod ? { codigo: f.cod, nome: f.nome, porte: f.porte, escolhido: f.cod !== f.auto } : null;
     x.anexo = anexoPedido(); x.estimativa = { imposto: n.imp, nota: n.impNota, economia: n.eco || null };
-    x.resumo = linhasMsg();
+    x.calculo = { formato: f.cod ? { cod: f.cod, auto: f.auto, nome: f.nome, porte: f.porte } : null, numeros: { imp: n.imp, impNota: n.impNota, eco: n.eco || null }, anexo: x.anexo };
+    /* o contato (com CPF) vai à parte; o resumo fica sem ele */
+    x.resumo = linhasMsg().filter(function (l) { return l[0] !== 'Meus dados'; });
     return x;
   }
   function envia() {
