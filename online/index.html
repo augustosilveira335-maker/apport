@@ -430,6 +430,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 .raiox p{margin-top:6px;font-size:13px;color:var(--cinza);line-height:1.4}
 .raiox .eco{grid-column:1/-1;background:rgba(18,161,80,.08);border-color:rgba(18,161,80,.3)}
 .raiox .eco b{color:var(--ok)}
+.acomp{padding:20px 22px;border-radius:18px;background:rgba(18,161,80,.07);border:1px solid rgba(18,161,80,.3)}
 .aceita,.mao{padding:20px 22px;border-radius:18px;background:#fff;border:1px solid var(--fio)}
 .aceita h3,.mao h3{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--cinza);margin-bottom:12px}
 .aceita ul,.mao ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;line-height:1.45;color:var(--tinta)}
@@ -739,6 +740,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 <div class="fx-palco">
 <div class="fx-perg" id="fx-perg">
 <form id="fx-form" novalidate>
+<input class="sr" type="text" id="isca" tabindex="-1" autocomplete="off" aria-hidden="true">
 
 <section class="q" data-q="porta" hidden>
 <p class="n">Para começar</p>
@@ -856,16 +858,17 @@ section{padding-block:clamp(72px,9vw,124px)}
 </section>
 
 <section class="q feito-q" data-q="feito" hidden>
-<span class="rot"><i aria-hidden="true"></i>Ficha enviada para o WhatsApp</span>
-<h2>Agora é só <em class="s">mandar</em>.</h2>
-<p class="ajuda" style="margin:0">Abrimos a conversa com a Apport com a sua ficha. Envie a mensagem e respondemos com o prazo e o valor final.</p>
+<span class="rot" id="feito-rot"><i aria-hidden="true"></i>Ficha enviada para o WhatsApp</span>
+<h2 id="feito-tit">Agora é só <em class="s">mandar</em>.</h2>
+<p class="ajuda" style="margin:0" id="feito-txt">Abrimos a conversa com a Apport com a sua ficha. Envie a mensagem e respondemos com o prazo e o valor final.</p>
+<div class="acomp" id="acomp" hidden><p class="ajuda" style="margin:0 0 12px">Acompanhe cada etapa por este link. Ele também vai na mensagem do WhatsApp.</p><div style="display:flex;flex-wrap:wrap;gap:12px"><a class="bt" id="acomp-link" href="#" target="_blank" rel="noopener">Acompanhar meu pedido</a><button class="bt leve" type="button" id="acomp-copia">Copiar link</button></div></div>
 <p>Protocolo <span class="prot" id="protocolo">AP</span></p>
 <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="bt zap" id="wa-de-novo" href="#" target="_blank" rel="noopener">Abrir o WhatsApp de novo</a><button class="bt leve" type="button" id="imprime">Salvar a ficha em PDF</button></div>
 <div class="mao" id="mao"></div>
 <p class="gt" style="font:600 13px/1 var(--sans);color:var(--cinza);margin-top:8px">O que vem depois</p>
 <ol class="linha" id="linha"></ol>
 <button class="lk" type="button" id="outro">Fazer outro pedido</button>
-<p class="fino">Prévia: nesta versão o pedido segue pelo WhatsApp. Na versão final, cada etapa aparece aqui e você recebe aviso a cada mudança.</p>
+<p class="fino" id="feito-previa">Prévia: nesta versão o pedido segue pelo WhatsApp. Na versão final, cada etapa aparece aqui e você recebe aviso a cada mudança.</p>
 </section>
 
 </form>
@@ -1103,8 +1106,9 @@ section{padding-block:clamp(72px,9vw,124px)}
 
   /* ===== abrir e fechar o pedido ===== */
   var fx = d.getElementById('fx'), form = d.getElementById('fx-form'), erro = d.getElementById('erro');
+  var t0 = 0;
   function inicia(porta, onde) {
-    ultimoFoco = d.activeElement;
+    ultimoFoco = d.activeElement; if (!t0) t0 = Date.now();
     fx.hidden = false; d.documentElement.classList.add('travado');
     if (porta && porta !== E.porta) { E.porta = porta; E.passo = ''; }
     if (!E.porta) { vai('porta'); return; }
@@ -1360,12 +1364,50 @@ section{padding-block:clamp(72px,9vw,124px)}
     return L;
   }
   function protocolo() { var h = new Date(), p = function (n) { return String(n).padStart(2, '0'); }; return 'AP-' + String(h.getFullYear()).slice(2) + p(h.getMonth() + 1) + p(h.getDate()) + '-' + Math.floor(1000 + Math.random() * 9000); }
+  var API_ABERTURA = 'https://sistemabrasil.com/api/abertura/ficha';
+  function dadosParaServidor() {
+    var f = formato() || {}, n = numeros(), x = JSON.parse(JSON.stringify(E));
+    delete x.passo; delete x.cpf;
+    x.formato = f.cod ? { codigo: f.cod, nome: f.nome, porte: f.porte, escolhido: f.cod !== f.auto } : null;
+    x.anexo = anexoPedido(); x.estimativa = { imposto: n.imp, nota: n.impNota, economia: n.eco || null };
+    x.resumo = linhasMsg();
+    return x;
+  }
   function envia() {
-    var prot = protocolo(), t = E.porta === 'abrir' ? 'Quero abrir minha empresa' : 'Quero trocar de contador';
-    var msg = ['Olá, Apport! ' + t + '. Ficha ' + prot + ' (Apport Online).', ''].concat(linhasMsg().map(function (x) { return '*' + x[0] + ':* ' + x[1]; })).concat(['', 'Vi os valores no site e concordo com o uso destes dados para a proposta.']).join('\n');
+    var botao = d.getElementById('fx-segue'); botao.disabled = true; botao.textContent = 'Enviando...';
+    /* a janela do WhatsApp abre já no clique (senão o navegador bloqueia) e recebe o endereço depois */
+    var janela = null;
+    try {
+      janela = window.open('about:blank', '_blank');
+      if (janela) { janela.document.title = 'Abrindo o WhatsApp'; janela.document.body.innerHTML = '<p style="font:16px system-ui,sans-serif;padding:24px;color:#001E60">Abrindo o WhatsApp da Apport...</p>'; }
+    } catch (e) { janela = null; }
+    var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 7000);
+    var corpo = { escritorio: 'apport', tipo: E.porta, dados: dadosParaServidor(), contato: { nome: E.pessoa.trim(), email: E.email.trim(), whatsapp: '55' + E.zap.replace(/\D/g, ''), cpf: E.porta === 'abrir' ? E.cpf.replace(/\D/g, '') : undefined }, isca: (d.getElementById('isca') || {}).value || '', t0: t0 || Date.now(), origem: location.href.split('#')[0] };
+    var envio = /^https?:\/\//.test(API_ABERTURA)
+      ? fetch(API_ABERTURA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), signal: ctl ? ctl.signal : undefined })
+          .then(function (r) { if (r.status !== 201) throw new Error('http ' + r.status); return r.json(); })
+          .then(function (j) { if (!j || !j.protocolo) throw new Error('sem protocolo'); return j; })
+      : Promise.reject(new Error('sem servidor'));
+    envio.catch(function () { return null; }).then(function (srv) { clearTimeout(tm); conclui(srv, janela); botao.disabled = false; });
+  }
+  function conclui(srv, janela) {
+    var prot = srv ? srv.protocolo : protocolo(), t = E.porta === 'abrir' ? 'Quero abrir minha empresa' : 'Quero trocar de contador';
+    var linhas = ['Olá, Apport! ' + t + '. Ficha ' + prot + ' (Apport Online).', ''].concat(linhasMsg().map(function (x) { return '*' + x[0] + ':* ' + x[1]; }));
+    if (srv && srv.link) linhas.push('*Acompanhamento:* ' + srv.link);
+    var msg = linhas.concat(['', 'Vi os valores no site e concordo com o uso destes dados para a proposta.']).join('\n');
     var link = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
-    window.open(link, '_blank', 'noopener');
+    var foi = false;
+    if (janela && !janela.closed) { try { janela.location.href = link; try { janela.opener = null; } catch (e) {} foi = true; } catch (e) {} }
+    if (!foi) window.open(link, '_blank', 'noopener');
     d.getElementById('protocolo').textContent = prot; d.getElementById('wa-de-novo').href = link;
+    var acomp = d.getElementById('acomp');
+    if (srv && srv.link) {
+      acomp.hidden = false; d.getElementById('acomp-link').href = srv.link;
+      d.getElementById('feito-rot').innerHTML = '<i aria-hidden="true"></i>Ficha registrada na Apport';
+      d.getElementById('feito-tit').innerHTML = 'Recebemos a sua <em class="s">ficha</em>.';
+      d.getElementById('feito-txt').textContent = 'A Apport já recebeu os seus dados. Abrimos também o WhatsApp com a ficha, para agilizar a resposta com o prazo e o valor final.';
+      d.getElementById('feito-previa').hidden = true;
+    } else acomp.hidden = true;
     var et = E.porta === 'trocar'
       ? [['Ficha montada', 'agora, pelo site'], ['Proposta da Apport', 'no WhatsApp, com o valor final'], ['Seu sim e o acesso', 'assinatura e sistema liberado'], ['Troca com o contador atual', 'documentos e acessos, etapa por etapa'], ['Primeiro fechamento com a Apport', 'impostos e folha do mês'], ['Nota fiscal no celular', 'sistema com a marca da Apport']]
       : (formato() || {}).cod === 'MEI'
@@ -1373,9 +1415,13 @@ section{padding-block:clamp(72px,9vw,124px)}
         : [['Ficha montada', 'agora, pelo site'], ['Proposta da Apport', 'prazo e valor final no WhatsApp'], ['Consulta de viabilidade', 'prefeitura'], ['Registro da empresa', 'Junta Comercial'], ['CNPJ', 'Receita Federal'], ['Inscrições e alvará', 'conforme a atividade'], ['Nota fiscal no celular', 'sistema com a marca da Apport, 60 dias grátis']];
     desenhaMao();
     d.getElementById('linha').innerHTML = et.map(function (e, i) { return '<li class="' + (i === 0 ? 'ok' : i === 1 ? 'vez' : '') + '"><b>' + e[0] + '</b><small>' + e[1] + '</small></li>'; }).join('');
-    vai('feito');
+    vai('feito'); t0 = 0;
     try { localStorage.removeItem(CHAVE); } catch (e) {}
   }
+  d.getElementById('acomp-copia').addEventListener('click', function () {
+    var l = d.getElementById('acomp-link').href, b = this;
+    try { navigator.clipboard.writeText(l).then(function () { b.textContent = 'Link copiado'; }); } catch (e) { b.textContent = l; }
+  });
   function itens(lista, icone) { return '<ul>' + lista.map(function (x) { return '<li><svg aria-hidden="true"><use href="#' + icone + '"/></svg><span>' + x + '</span></li>'; }).join('') + '</ul>'; }
   /* o que a pessoa aceita, em linguagem simples: só o que a Apport publica */
   function desenhaAceita() {
