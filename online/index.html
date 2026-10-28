@@ -705,7 +705,7 @@ section{padding-block:clamp(72px,9vw,124px)}
 <section class="claro" id="duvidas"><div class="c faq">
 <div><span class="rot">Dúvidas</span><div class="cab" style="margin:0"><div><h2>Antes de <em class="s">começar</em>.</h2></div></div></div>
 <div>
-<details><summary>Quanto custa, de verdade?</summary><p>Abrir a empresa custa R$ 99,90, mais as taxas públicas da Junta Comercial e da prefeitura, que informamos antes. Trocar de contador custa R$ 99,90. A contabilidade online começa em R$ 399,90 por mês e o valor exato depende do regime, dos funcionários e do volume de notas. Tudo vem na proposta, antes de qualquer pagamento.</p></details>
+<details><summary>Quanto custa, de verdade?</summary><p>Abrir a empresa custa R$ 99,90, mais as taxas públicas. Na Junta Comercial do RS, o contrato social custa R$ 205,02 pela tabela de 2026, e sai sem custo quando cabe o contrato padrão do registro automático. A taxa da prefeitura depende da cidade e da atividade, e informamos antes. Trocar de contador custa R$ 99,90. A contabilidade online começa em R$ 399,90 por mês e o valor exato depende do regime, dos funcionários e do volume de notas. Tudo vem na proposta, antes de qualquer pagamento.</p></details>
 <details><summary>Tem fidelidade?</summary><p>Sim, de 6 meses na abertura e na troca de contador. É metade do que costuma ser exigido nas contabilidades online.</p></details>
 <details><summary>Preciso ir ao escritório?</summary><p>Não. Tudo é feito online e pelo WhatsApp. Se quiser conversar pessoalmente, atendemos no Centro de Campo Bom, de segunda a sexta, das 8h às 18h.</p></details>
 <details><summary>Quanto tempo leva para abrir a empresa?</summary><p>Depende da prefeitura e da Junta Comercial da sua cidade. Na proposta, passamos a previsão para o seu caso e você acompanha cada etapa até o CNPJ.</p></details>
@@ -1428,7 +1428,7 @@ section{padding-block:clamp(72px,9vw,124px)}
     var mei = E.porta === 'abrir' && (formato() || {}).cod === 'MEI', L = ['Nada é cobrado agora. A proposta chega no WhatsApp e você decide.'];
     if (mei) L.push('Registro do MEI gratuito, no Portal do Empreendedor. O acompanhamento da Apport vem na proposta.');
     else { L.push((E.porta === 'trocar' ? 'Troca de contador' : 'Abertura da empresa') + ': R$ 99,90, valor único.'); L.push('Contabilidade online a partir de R$ 399,90 por mês. O valor exato vem na proposta.'); L.push('Fidelidade de 6 meses na ' + (E.porta === 'trocar' ? 'troca' : 'abertura') + '.'); }
-    if (E.porta === 'abrir' && !mei) L.push('Taxas públicas da Junta Comercial e da prefeitura informadas antes de qualquer pagamento.');
+    if (E.porta === 'abrir' && !mei) L.push('Taxas públicas informadas antes de qualquer pagamento. Na Junta Comercial do RS, até R$ 205,02 (tabela de 2026).');
     L.push('Seus dados servem só para a proposta e para falarmos com você (LGPD).');
     d.getElementById('aceita').innerHTML = '<h3>O que você está aceitando</h3>' + itens(L, 'i-ok');
   }
