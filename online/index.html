@@ -1363,11 +1363,11 @@ section{padding-block:clamp(72px,9vw,124px)}
     }
     return L;
   }
-  function protocolo() { var h = new Date(), p = function (n) { return String(n).padStart(2, '0'); }; return 'AP-' + String(h.getFullYear()).slice(2) + p(h.getMonth() + 1) + p(h.getDate()) + '-' + Math.floor(1000 + Math.random() * 9000); }
+  function protocolo() { var h = new Date(), p = function (n) { return String(n).padStart(2, '0'); }; var L = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = ''; for (var i = 0; i < 4; i++) s += L.charAt(Math.floor(Math.random() * L.length)); return 'WA-' + String(h.getFullYear()).slice(2) + p(h.getMonth() + 1) + p(h.getDate()) + '-' + s; }
   var API_ABERTURA = 'https://sistemabrasil.com/api/abertura/ficha';
   function dadosParaServidor() {
     var f = formato() || {}, n = numeros(), x = JSON.parse(JSON.stringify(E));
-    delete x.passo; delete x.cpf;
+    delete x.passo; delete x.cpf; delete x.pessoa; delete x.zap; delete x.email;
     x.formato = f.cod ? { codigo: f.cod, nome: f.nome, porte: f.porte, escolhido: f.cod !== f.auto } : null;
     x.anexo = anexoPedido(); x.estimativa = { imposto: n.imp, nota: n.impNota, economia: n.eco || null };
     x.calculo = { formato: f.cod ? { cod: f.cod, auto: f.auto, nome: f.nome, porte: f.porte } : null, numeros: { imp: n.imp, impNota: n.impNota, eco: n.eco || null }, anexo: x.anexo };
@@ -1384,7 +1384,7 @@ section{padding-block:clamp(72px,9vw,124px)}
       if (janela) { janela.document.title = 'Abrindo o WhatsApp'; janela.document.body.innerHTML = '<p style="font:16px system-ui,sans-serif;padding:24px;color:#001E60">Abrindo o WhatsApp da Apport...</p>'; }
     } catch (e) { janela = null; }
     var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 7000);
-    var corpo = { escritorio: 'apport', tipo: E.porta, dados: dadosParaServidor(), contato: { nome: E.pessoa.trim(), email: E.email.trim(), whatsapp: '55' + E.zap.replace(/\D/g, ''), cpf: E.porta === 'abrir' ? E.cpf.replace(/\D/g, '') : undefined }, isca: (d.getElementById('isca') || {}).value || '', t0: t0 || Date.now(), origem: location.href.split('#')[0] };
+    var corpo = { escritorio: 'apport', tipo: E.porta, dados: dadosParaServidor(), contato: { nome: E.pessoa.trim(), email: E.email.trim(), whatsapp: '55' + E.zap.replace(/\D/g, ''), cpf: E.porta === 'abrir' ? E.cpf.replace(/\D/g, '') : undefined }, isca: (d.getElementById('isca') || {}).value || '', aceite: { versao: 'apport-online-2026-10-28', em: Date.now() }, t0: t0 || Date.now(), origem: location.href.split('#')[0] };
     var envio = /^https?:\/\//.test(API_ABERTURA)
       ? fetch(API_ABERTURA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), signal: ctl ? ctl.signal : undefined })
           .then(function (r) { if (r.status !== 201) throw new Error('http ' + r.status); return r.json(); })
