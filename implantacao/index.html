@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Implantação Apport One · etapas, prazos e o que precisamos</title>
+<meta name="description" content="O que já está no ar, o que estamos montando, o prazo de cada etapa e o que precisamos da Apport.">
+<meta property="og:title" content="Implantação Apport One">
+<meta property="og:description" content="O que já está no ar, o prazo de cada etapa e o que precisamos de vocês.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#001E60">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#001E60;--azul:#3080E2;--tinta:#0F1B33;--cinza:#5B6680;--linha:#DCE3EF;--fundo:#F4F7FC;--ok:#12A150}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Geist,system-ui,sans-serif;color:var(--tinta);background:#fff;line-height:1.5;font-size:16px}
+a{color:var(--azul)}
+.c{max-width:880px;margin:0 auto;padding:0 20px}
+header.topo{background:var(--navy);color:#fff;padding:22px 0 44px}
+.marca{display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#9DBEF0}
+.marca b{color:#fff;font-weight:600}
+h1{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:clamp(34px,7vw,54px);line-height:1.04;letter-spacing:-.01em;margin-top:34px}
+h1 em{font-style:normal;color:#7FB2F2}
+.sub{margin-top:14px;color:#C9D7EE;font-size:17px;max-width:620px}
+.para{margin-top:22px;font-size:14px;color:#AFC4E6}
+.para b{color:#fff;font-weight:600}
+section{padding:40px 0 8px}
+h2{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:clamp(25px,4.6vw,32px);color:var(--navy);line-height:1.15}
+h2 small{display:block;font-family:Geist,sans-serif;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--azul);margin-bottom:6px}
+.lead{color:var(--cinza);margin-top:8px;max-width:640px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.card{border:1px solid var(--linha);border-radius:14px;padding:16px;text-decoration:none;color:inherit;display:block;background:#fff}
+.card:hover{border-color:var(--azul)}
+.card .st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ok)}
+.card .st i{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+.card b{display:block;margin-top:8px;font-size:16px;color:var(--navy)}
+.card span{display:block;font-size:14px;color:var(--cinza);margin-top:4px}
+.card u{display:block;margin-top:10px;font-size:13px;color:var(--azul);text-decoration:none;font-weight:600;word-break:break-all}
+.lista{list-style:none;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+.lista li{position:relative;padding-left:18px}
+.lista li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--azul)}
+.lista b{color:var(--navy)}
+.prazos{margin-top:18px;border-top:2px solid var(--navy)}
+.prazo{display:grid;grid-template-columns:150px 1fr;gap:4px 20px;padding:16px 0;border-bottom:1px solid var(--linha)}
+.prazo .d{font-family:Newsreader,Georgia,serif;font-size:22px;font-weight:600;color:var(--navy);line-height:1.1}
+.prazo .d small{display:block;font-family:Geist,sans-serif;font-size:12px;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.prazo b{font-size:17px;color:var(--tinta)}
+.prazo p{font-size:14px;color:var(--cinza);margin-top:3px}
+.prazo p em{font-style:normal;color:var(--azul);font-weight:600}
+.nota{margin-top:14px;font-size:14px;color:var(--cinza);background:var(--fundo);border-radius:10px;padding:12px 14px}
+.grupo{margin-top:22px;border:1px solid var(--linha);border-radius:16px;overflow:hidden}
+.grupo>header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:var(--fundo);padding:12px 16px;border-bottom:1px solid var(--linha)}
+.grupo>header b{color:var(--navy);font-size:16px}
+.grupo>header span{font-size:13px;color:var(--cinza);white-space:nowrap}
+.grupo.urg>header{background:var(--navy)}
+.grupo.urg>header b{color:#fff}
+.grupo.urg>header span{color:#C9D7EE}
+.item{display:flex;gap:12px;padding:13px 16px;border-top:1px solid var(--linha);cursor:pointer;align-items:flex-start}
+.item:first-of-type{border-top:0}
+.item input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;border:2px solid #AEBBD3;border-radius:6px;margin-top:1px;display:grid;place-content:center;cursor:pointer;background:#fff}
+.item input:checked{background:var(--ok);border-color:var(--ok)}
+.item input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.item input:focus-visible{outline:3px solid var(--azul);outline-offset:2px}
+.item .t b{display:block;font-size:15px;color:var(--tinta);font-weight:600}
+.item .t span{display:block;font-size:14px;color:var(--cinza);margin-top:2px}
+.item input:checked + .t b{color:var(--cinza);text-decoration:line-through}
+.alerta{margin-top:10px;background:#FFF6E5;border:1px solid #F2D49B;color:#7A4E00;border-radius:12px;padding:12px 14px;font-size:14px}
+.alerta b{color:#5C3A00}
+.seguro{margin-top:22px;display:flex;gap:12px;align-items:flex-start;background:var(--navy);color:#fff;border-radius:16px;padding:18px}
+.seguro svg{flex:none;margin-top:2px}
+.seguro b{display:block;font-size:16px}
+.seguro span{display:block;color:#C9D7EE;font-size:14px;margin-top:3px}
+.conta{margin-top:10px;font-size:13px;color:var(--cinza)}
+footer{margin-top:44px;border-top:1px solid var(--linha);padding:22px 0 34px;font-size:13px;color:var(--cinza);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer b{color:var(--navy)}
+@media (max-width:720px){
+  .cards{grid-template-columns:1fr}
+  .lista{grid-template-columns:1fr}
+  .prazo{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="c">
+    <div class="marca"><span><b>Apport One</b> · implantação</span><span>11/11/2026</span></div>
+    <h1>Tudo que falta para o <em>Apport One</em> rodar inteiro.</h1>
+    <p class="sub">O que já está no ar, o que estamos montando, o prazo de cada etapa e o que precisamos de vocês para cumprir cada data.</p>
+    <p class="para">Para <b>Jean e Débora</b> · Apport Contabilidade · de <b>Augusto e Vinícius</b></p>
+  </div>
+</header>
+
+<main class="c">
+
+<section>
+  <h2><small>Já no ar</small>Vocês já podem abrir e testar</h2>
+  <div class="cards">
+    <a class="card" href="https://sistema.apport.anvilmarketing.com.br/login" target="_blank" rel="noopener">
+      <span class="st"><i></i>No ar</span>
+      <b>Sistema Apport One</b>
+      <span>Gestão, financeiro e nota fiscal com a marca de vocês.</span>
+      <u>sistema.apport.anvilmarketing.com.br</u>
+    </a>
+    <a class="card" href="https://apport.anvilmarketing.com.br/online/" target="_blank" rel="noopener">
+      <span class="st"><i></i>No ar · parte do cliente</span>
+      <b>Apport One Já</b>
+      <span>Abrir empresa ou trocar de contador em poucos minutos, com o preço na hora.</span>
+      <u>apport.anvilmarketing.com.br/online</u>
+    </a>
+    <a class="card" href="https://apport.anvilmarketing.com.br/" target="_blank" rel="noopener">
+      <span class="st"><i></i>No ar · prévia</span>
+      <b>Site novo da Apport</b>
+      <span>Versão para aprovação, antes de ir para o domínio de vocês.</span>
+      <u>apport.anvilmarketing.com.br</u>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2><small>Em montagem</small>O que estamos construindo</h2>
+  <ul class="lista">
+    <li><b>IA no WhatsApp:</b> tira as notas dos clientes (só emite com o ok de vocês), atende, encaminha quem quer abrir empresa ou trocar de contador e cobra as mensalidades.</li>
+    <li><b>IA no e-mail:</b> responde os e-mails dos clientes do mesmo jeito.</li>
+    <li><b>Apport One Já completo:</b> pagamento no site, conta e área do cliente, envio de documentos e avisos por e-mail.</li>
+    <li><b>Site novo no domínio de vocês:</b> apportcontabilidade.com.br.</li>
+    <li><b>Vitrine dos cursos:</b> catálogo no estilo Netflix, com a identidade da empresa de cursos.</li>
+    <li><b>Marketing:</b> anúncios para abrir empresa e trocar de contador, com os contatos caindo direto na IA.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><small>Prazos</small>Cada data depende do material chegar a tempo</h2>
+  <div class="prazos">
+    <div class="prazo"><div class="d">19/11<small>quinta</small></div><div><b>IA no WhatsApp funcionando</b><p>Piloto com 3 clientes MEI. Depende do <em>número da IA e dos 3 clientes até sexta, 13/11</em>.</p></div></div>
+    <div class="prazo"><div class="d">27/11<small>sexta</small></div><div><b>Apport One Já completo</b><p>Pagamento, conta e área do cliente. Depende da <em>conta de recebimento e dos planos até quarta, 18/11</em>.</p></div></div>
+    <div class="prazo"><div class="d">27/11<small>sexta</small></div><div><b>IA respondendo os e-mails</b><p>Depende do <em>acesso ao e-mail até quarta, 18/11</em>.</p></div></div>
+    <div class="prazo"><div class="d">01/12<small>terça</small></div><div><b>Site novo no domínio de vocês</b><p>Depende do <em>acesso à Terra Empresas até quarta, 25/11</em>.</p></div></div>
+    <div class="prazo"><div class="d">11/12<small>sexta</small></div><div><b>Vitrine dos cursos</b><p>Depende do <em>material dos cursos até segunda, 30/11</em>.</p></div></div>
+  </div>
+  <p class="nota">Nota de serviço de clientes ME e EPP de Campo Bom: a prefeitura de Campo Bom não usa o emissor nacional, então precisa de uma emissora intermediária, com custo à parte. Definimos a data quando soubermos quantos clientes são desse tipo. Para MEI, funciona desde o piloto.</p>
+</section>
+
+<section>
+  <h2><small>O que precisamos de vocês</small>Marquem aqui o que já mandaram</h2>
+  <p class="lead">Tudo pelo WhatsApp com o Augusto, menos certificado e senhas (veja o quadro no fim).</p>
+
+  <div class="grupo urg">
+    <header><b>Para a IA ficar pronta</b><span>até sex, 13/11</span></header>
+    <label class="item"><input type="checkbox" data-id="numero-ia"><span class="t"><b>Um número de WhatsApp só para a IA</b><span>Num celular que fique com vocês. A ligação é feita por um código que mandamos.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="numero-debora"><span class="t"><b>O número da Débora</b><span>Tu e ela liberam cada nota antes de sair.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="tres-mei"><span class="t"><b>3 clientes MEI para o piloto</b><span>CNPJ, e-mail, telefone e a descrição do serviço que costumam emitir.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="certificados"><span class="t"><b>O certificado A1 desses 3 clientes, com a senha</b><span>Pelo envio seguro, nunca pelo WhatsApp.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="cidades"><span class="t"><b>De que cidade são os clientes que vão pedir nota e quantos são MEI</b><span>Define se a nota sai direto ou precisa da emissora intermediária.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="boletos"><span class="t"><b>Onde vocês emitem hoje os boletos das mensalidades</b><span>Para a IA conseguir cobrar e mandar a linha digitável.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="precos"><span class="t"><b>A Débora conferir os serviços, preços e prazos que a IA já usa</b><span>Montamos a partir do site de vocês; mandamos a lista para ela revisar.</span></span></label>
+  </div>
+
+  <div class="grupo">
+    <header><b>Apport One Já completo e e-mail</b><span>até qua, 18/11</span></header>
+    <label class="item"><input type="checkbox" data-id="recebimento"><span class="t"><b>Conta de recebimento</b><span>Asaas, Mercado Pago ou similar, para receber pelo site.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="planos"><span class="t"><b>Os planos e preços que querem vender no Apport One Já</b><span>Abertura, troca e mensalidades.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="email"><span class="t"><b>Acesso ao e-mail que a IA vai responder</b><span>suporte@apportcontabilidade.com.br ou outro que preferirem.</span></span></label>
+  </div>
+
+  <div class="grupo">
+    <header><b>Site novo no domínio</b><span>até qua, 25/11</span></header>
+    <label class="item"><input type="checkbox" data-id="terra"><span class="t"><b>Acesso ao painel da Terra Empresas</b><span>É onde estão o domínio e o e-mail de vocês. Mexemos só no endereço do site; o e-mail continua igual.</span></span></label>
+    <div class="alerta"><b>Atenção:</b> o domínio apportcontabilidade.com.br vence em <b>04/12/2026</b>. Ele está no nome do Jean; vale renovar antes, para o site e o e-mail não pararem.</div>
+  </div>
+
+  <div class="grupo">
+    <header><b>Vitrine dos cursos</b><span>até seg, 30/11</span></header>
+    <label class="item"><input type="checkbox" data-id="curso-nome"><span class="t"><b>Nome e link atual da empresa de cursos</b><span>Site, Instagram ou plataforma onde vendem hoje.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="curso-marca"><span class="t"><b>Logo, cores e fontes</b><span>O que tiverem: arquivo da logo ou manual da marca.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="curso-lista"><span class="t"><b>Lista de cursos</b><span>Nome, descrição, preço, link de compra e vídeo de apresentação de cada um.</span></span></label>
+  </div>
+
+  <div class="grupo">
+    <header><b>Marketing</b><span>quando puderem</span></header>
+    <label class="item"><input type="checkbox" data-id="anuncios"><span class="t"><b>Acesso às contas de anúncio (Meta e Google)</b><span>Se ainda não existirem, criamos com vocês.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="verba"><span class="t"><b>Verba de anúncio de R$ 1.000 por mês</b><span>Paga direto às plataformas, à parte.</span></span></label>
+  </div>
+  <p class="conta" id="conta" aria-live="polite"></p>
+
+  <div class="seguro">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="#7FB2F2" stroke-width="1.8"/><path d="m8.5 12 2.4 2.4L15.5 9.8" stroke="#7FB2F2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><b>Certificado e senhas nunca pelo WhatsApp</b><span>Combinamos com vocês um envio seguro para os certificados A1 e as senhas de acesso.</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="c">
+  <span><b>Apport One</b> · implantação feita pela Anvil e pelo Sistema Brasil</span>
+  <span>Dúvidas: WhatsApp do Augusto</span>
+</footer>
+
+<script>
+(function () {
+  var caixas = [].slice.call(document.querySelectorAll('.item input'));
+  var chave = 'apport-implantacao-v1';
+  var feito = {};
+  try { feito = JSON.parse(localStorage.getItem(chave) || '{}') || {}; } catch (e) { feito = {}; }
+  function conta() {
+    var n = caixas.filter(function (c) { return c.checked; }).length;
+    document.getElementById('conta').textContent = n ? n + ' de ' + caixas.length + ' itens marcados neste aparelho.' : '';
+  }
+  caixas.forEach(function (c) {
+    c.checked = !!feito[c.dataset.id];
+    c.addEventListener('change', function () {
+      feito[c.dataset.id] = c.checked;
+      try { localStorage.setItem(chave, JSON.stringify(feito)); } catch (e) {}
+      conta();
+    });
+  });
+  conta();
+})();
+</script>
+</body>
+</html>
