@@ -78,6 +78,8 @@ h2 small{display:block;font-family:Geist,sans-serif;font-size:12px;font-weight:7
 .seguro svg{flex:none;margin-top:2px}
 .seguro b{display:block;font-size:16px}
 .seguro span{display:block;color:#C9D7EE;font-size:14px;margin-top:3px}
+.seguro ol{margin:10px 0 0;padding-left:20px;color:#C9D7EE;font-size:14px;display:grid;gap:6px}
+.seguro ol b{display:inline;font-size:inherit;color:#fff}
 .conta{margin-top:10px;font-size:13px;color:var(--cinza)}
 footer{margin-top:44px;border-top:1px solid var(--linha);padding:22px 0 34px;font-size:13px;color:var(--cinza);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer b{color:var(--navy)}
@@ -158,7 +160,7 @@ footer b{color:var(--navy)}
     <label class="item"><input type="checkbox" data-id="numero-ia"><span class="t"><b>Um número de WhatsApp só para a IA</b><span>Num celular que fique com vocês. A ligação é feita por um código que mandamos.</span></span></label>
     <label class="item"><input type="checkbox" data-id="numero-debora"><span class="t"><b>O número da Débora</b><span>Tu e ela liberam cada nota antes de sair.</span></span></label>
     <label class="item"><input type="checkbox" data-id="tres-mei"><span class="t"><b>3 clientes MEI para o piloto</b><span>CNPJ, e-mail, telefone e a descrição do serviço que costumam emitir.</span></span></label>
-    <label class="item"><input type="checkbox" data-id="certificados"><span class="t"><b>O certificado A1 desses 3 clientes, com a senha</b><span>Pelo envio seguro, nunca pelo WhatsApp.</span></span></label>
+    <label class="item"><input type="checkbox" data-id="certificados"><span class="t"><b>O certificado A1 desses 3 clientes</b><span>Vocês mesmos enviam, direto no sistema. O passo a passo está no quadro no fim.</span></span></label>
     <label class="item"><input type="checkbox" data-id="cidades"><span class="t"><b>De que cidade são os clientes que vão pedir nota e quantos são MEI</b><span>Define se a nota sai direto ou precisa da emissora intermediária.</span></span></label>
     <label class="item"><input type="checkbox" data-id="boletos"><span class="t"><b>Onde vocês emitem hoje os boletos das mensalidades</b><span>Para a IA conseguir cobrar e mandar a linha digitável.</span></span></label>
     <label class="item"><input type="checkbox" data-id="precos"><span class="t"><b>A Débora conferir os serviços, preços e prazos que a IA já usa</b><span>Montamos a partir do site de vocês; mandamos a lista para ela revisar.</span></span></label>
@@ -193,7 +195,13 @@ footer b{color:var(--navy)}
 
   <div class="seguro">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="#7FB2F2" stroke-width="1.8"/><path d="m8.5 12 2.4 2.4L15.5 9.8" stroke="#7FB2F2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <div><b>Certificado e senhas nunca pelo WhatsApp</b><span>Combinamos com vocês um envio seguro para os certificados A1 e as senhas de acesso.</span></div>
+    <div><b>Certificado e senhas nunca pelo WhatsApp</b><span>O certificado A1 de cada cliente vai direto para o sistema, em 3 passos:</span>
+      <ol>
+        <li>Em sistema.apport.anvilmarketing.com.br, cliquem no nome da empresa no topo e em <b>Cadastrar nova empresa</b>, com o CNPJ do cliente.</li>
+        <li>Nessa empresa, em <b>Configurações fiscais</b>, cliquem em <b>Enviar certificado A1</b>, escolham o arquivo .pfx e digitem a senha. O arquivo e a senha saem cifrados do computador de vocês e só o emissor de notas consegue abrir. Nem nós vemos.</li>
+        <li>Em <b>Configurações › Convites e QR</b>, convidem audiovisualanvil@gmail.com como administrador. A partir daí, nós configuramos a nota e ligamos a IA.</li>
+      </ol>
+      <span>As senhas de acesso (e-mail e Terra) combinamos com vocês numa ligação.</span></div>
   </div>
 </section>
 
