@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Domínio da Apport · o que mudar no DNS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#001E60;--azul:#3080E2;--tinta:#0F1B33;--cinza:#5B6680;--linha:#DCE3EF;--fundo:#F4F7FC;--ok:#12A150;--alerta:#B4540A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.topo{background:var(--navy);color:#fff;padding:28px 16px 32px}
+.c{max-width:760px;margin:0 auto}
+.topo small{display:block;opacity:.75;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.topo h1{margin:6px 0 8px;font-size:26px;line-height:1.25}
+.topo p{margin:0;opacity:.9}
+main{padding:20px 16px 48px}
+.cartao{background:#fff;border:1px solid var(--linha);border-radius:12px;padding:18px;margin:0 0 14px}
+.cartao h2{margin:0 0 6px;font-size:18px}
+.passo{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--azul);color:#fff;font-weight:700;font-size:14px;margin-right:8px}
+.reg{border:1px solid var(--linha);border-radius:10px;padding:12px;margin:10px 0;background:var(--fundo)}
+.reg .linha{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0}
+.reg .rot{font-size:12px;color:var(--cinza);text-transform:uppercase;letter-spacing:.06em;min-width:62px}
+.reg code{font:600 15px/1.4 ui-monospace,Consolas,monospace;word-break:break-all;flex:1;min-width:0}
+.reg .obs{font-size:14px;color:var(--cinza);margin-top:6px}
+button.copiar{border:1px solid var(--azul);background:#fff;color:var(--azul);border-radius:8px;padding:6px 12px;font:600 13px Inter,sans-serif;cursor:pointer}
+button.copiar.ok{border-color:var(--ok);color:var(--ok)}
+.aviso{border-left:4px solid var(--alerta);background:#FFF6EC}
+.aviso h2{color:var(--alerta)}
+.pronto{border-left:4px solid var(--ok)}
+ul{margin:8px 0 0;padding-left:20px}
+</style>
+</head>
+<body>
+<header class="topo"><div class="c">
+<small>Apport One · implantação</small>
+<h1>Domínio da Apport: o que mudar no DNS</h1>
+<p>Com estes ajustes, o site novo, o Apport One Já e o sistema passam a abrir no endereço da Apport. Leva uns 5 minutos.</p>
+</div></header>
+<main><div class="c">
+
+<section class="cartao">
+<h2><span class="passo">1</span>Entre no painel da Terra Empresas</h2>
+<p>É onde está o domínio <b>apportcontabilidade.com.br</b>. Procure a opção <b>DNS</b> ou <b>Zona de DNS</b> do domínio.</p>
+</section>
+
+<section class="cartao">
+<h2><span class="passo">2</span>Ajuste estes registros</h2>
+<p>Em cada um, copie o valor pelo botão. Se o registro já existir, troque o valor; se não existir, crie.</p>
+
+<div class="reg">
+<div class="linha"><span class="rot">Nome</span><code>@</code><span class="obs">(o próprio domínio, às vezes aparece em branco)</span></div>
+<div class="linha"><span class="rot">Tipo</span><code>A</code></div>
+<div class="linha"><span class="rot">Valor</span><code>185.199.108.153</code><button class="copiar" data-v="185.199.108.153">Copiar</button></div>
+<div class="linha"><span class="rot">Valor</span><code>185.199.109.153</code><button class="copiar" data-v="185.199.109.153">Copiar</button></div>
+<div class="linha"><span class="rot">Valor</span><code>185.199.110.153</code><button class="copiar" data-v="185.199.110.153">Copiar</button></div>
+<div class="linha"><span class="rot">Valor</span><code>185.199.111.153</code><button class="copiar" data-v="185.199.111.153">Copiar</button></div>
+<div class="obs">São 4 registros do tipo A, um para cada valor. Apague o registro A antigo com o valor <b>185.230.63.107</b> (é do site antigo, que está fora do ar).</div>
+</div>
+
+<div class="reg">
+<div class="linha"><span class="rot">Nome</span><code>www</code></div>
+<div class="linha"><span class="rot">Tipo</span><code>CNAME</code></div>
+<div class="linha"><span class="rot">Valor</span><code>augustosilveira335-maker.github.io</code><button class="copiar" data-v="augustosilveira335-maker.github.io">Copiar</button></div>
+<div class="obs">Hoje ele aponta para <b>pointing.wixdns.net</b>: troque por este.</div>
+</div>
+
+<div class="reg">
+<div class="linha"><span class="rot">Nome</span><code>ja</code></div>
+<div class="linha"><span class="rot">Tipo</span><code>CNAME</code></div>
+<div class="linha"><span class="rot">Valor</span><code>augustosilveira335-maker.github.io</code><button class="copiar" data-v="augustosilveira335-maker.github.io">Copiar</button></div>
+<div class="obs">Apport One Já em ja.apportcontabilidade.com.br.</div>
+</div>
+
+<div class="reg">
+<div class="linha"><span class="rot">Nome</span><code>sistema</code></div>
+<div class="linha"><span class="rot">Tipo</span><code>A</code></div>
+<div class="linha"><span class="rot">Valor</span><code>2.25.223.100</code><button class="copiar" data-v="2.25.223.100">Copiar</button></div>
+<div class="obs">O sistema com a marca da Apport em sistema.apportcontabilidade.com.br.</div>
+</div>
+</section>
+
+<section class="cartao aviso">
+<h2>Não mexa nestes</h2>
+<p>São do e-mail da Apport. Se mudar, o e-mail para.</p>
+<ul>
+<li>Registro <b>MX</b> (mx.terraempresas.com.br)</li>
+<li>Registro <b>TXT</b> que começa com <b>v=spf1</b></li>
+</ul>
+</section>
+
+<section class="cartao pronto">
+<h2><span class="passo">3</span>Salve e avise a gente</h2>
+<p>Salvou, é só mandar um "feito" no WhatsApp. A gente confere e liga o site e o sistema no endereço novo. A mudança costuma aparecer em minutos, às vezes em algumas horas.</p>
+<p><b>Importante:</b> o domínio apportcontabilidade.com.br vence em <b>04/12/2026</b>. Vale renovar antes, para o site e o e-mail não pararem.</p>
+</section>
+
+</div></main>
+<script>
+document.querySelectorAll('button.copiar').forEach(function(b){
+  b.addEventListener('click', function(){
+    var v = b.getAttribute('data-v');
+    var feito = function(){ b.textContent = 'Copiado'; b.classList.add('ok'); setTimeout(function(){ b.textContent = 'Copiar'; b.classList.remove('ok'); }, 1800); };
+    if (navigator.clipboard) { navigator.clipboard.writeText(v).then(feito, function(){ window.prompt('Copie o valor:', v); }); }
+    else { window.prompt('Copie o valor:', v); }
+  });
+});
+</script>
+</body>
+</html>
